@@ -5,8 +5,8 @@ This should run on RPI5. No testing done on RPI4 yet
 ## Illustration for Pi setup:
 <img width="1000" height="600" alt="VisionHardware" src="visionHardware.png"/>
 
-## How to set up Raspberry Pi 5 with WPILibPi and MonsterVision5 (FOR SETUP ON ROBOT)
-1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/Lakemonsters2635/MonsterVision5.git`
+## How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
+1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/Lakemonsters2635/MonsterVision.git`
 1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (scroll down to "Assets" and select WPILibPi, not Romi)
 1. Extract downloaded .zip file
 1. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)
@@ -16,19 +16,19 @@ This should run on RPI5. No testing done on RPI4 yet
 1. May need to wait 2-5 minutes for pi to boot for the first time
 1. ssh into the Raspberry Pi with `ssh pi@wpilibpi.local` (if you get a "man-in-the-middle error, run `ssh-keygen -R wpilibpi.local -f <your known_hosts file path>`)
 2. Navigate to [wpilibpi.local](http://wpilibpi.local) and click "Writable" at the top of the page
-1. Navigate to the "Application" tab on wpilibpi.local and click "choose file" then select your MonsterVision5.tar.gz file and click "Upload" (Do not check extract)
+1. Navigate to the "Application" tab on wpilibpi.local and click "choose file" then select your MonsterVision.tar.gz file and click "Upload" (Do not check extract)
 1. In the ssh run these commands (if MV5 is already on there then remove it before proceeding):
 ```shell
-tar -xzf MonsterVision5.tar.gz
-rm MonsterVision5.tar.gz
-cd MonsterVision5
+tar -xzf MonsterVision.tar.gz
+rm MonsterVision.tar.gz
+cd MonsterVision
 dos2unix *
 sudo sh resize.sh
 sudo sh setup.sh <TEAM NUMBER>
 ```
 _____________________________________________________________________________________________________________
 ## How to use Pi's for MV Development
-This document covers installing MonsterVision5 on a Raspberry Pi development machine.
+This document covers installing MonsterVision on a Raspberry Pi development machine.
 
 It is recommended (but not required) that you use an SSD rather than an SD card on your Pi.  If you do, you may need to enable your Pi to boot from the SSD.  This only needs to be done once.  [Follow these instructions.](https://peyanski.com/how-to-boot-raspberry-pi-4-from-ssd/#:~:text=To%20boot%20Raspberry%20Pi%204%20from%20SSD%20you,USB%20to%20boot%20raspberry%20Pi%204%20from%20SSD.)
 At this time it is important to note that SSDs are not competition legal for FRC.
@@ -47,16 +47,16 @@ It can be launched with from a terminal via `code` or via the GUI under the **Pr
 ### 2. Start a Terminal session:
 Within the session:
 
-Clone the MonsterVision5 repo:
+Clone the MonsterVision repo:
 ```shell
-git clone https://github.com/Lakemonsters2635/MonsterVision5.git
+git clone https://github.com/Lakemonsters2635/MonsterVision.git
 ```
 
 For development, it is best to use a Python virtual environment to keep from descending into "version hell."  Create the virtual environment and activate it. This also prevents the package managers from clashing and can make the process of installing smoother
 
-Change to the MonsterVision5 directory:
+Change to the MonsterVision directory:
 ```shell
-cd MonsterVision5
+cd MonsterVision
 ```
 _____________________________________________________________________________________________________________
 
@@ -285,11 +285,11 @@ Commands may need to be ran through `sudo`
 
 
 ### How to transfer initial repo from laptop to pi:
-Assume local repo is in c:/dev/MonsterVision5
-Assume /home/pi/MonsterVision5 exists and is empty
+Assume local repo is in c:/dev/MonsterVision
+Assume /home/pi/MonsterVision exists and is empty
 Assume wpilibpi.local is the server you want to push code to
 1. Open Command Prompt
-2. Type `scp -rp c:/dev/MonsterVision5/. pi@wpilibpi.local:/home/pi/MonsterVision5/` (If this doesn't work, use Admin Command Prompt)
+2. Type `scp -rp c:/dev/MonsterVision/. pi@wpilibpi.local:/home/pi/MonsterVision/` (If this doesn't work, use Admin Command Prompt)
 
 
 ### How to transfer updated code to computer and GitHub from Pi:
@@ -299,12 +299,12 @@ Assume wpilibpi.local is the server you want to push code to
 4. Get laptop IP it from `ifconfig` or `ip a` on Linux laptop or `ipconfig` on Windows laptop
 5. From the pi: `scp -p <name zip file> <host user name>@<laptop ip>:<directory where you want it on laptop>`
 6. Unzip on laptop
-7. Copy into MonsterVision5 directory connected to GitHub on laptop (overwriting in the process)
+7. Copy into MonsterVision directory connected to GitHub on laptop (overwriting in the process)
 8. Commit and push to GitHub
 
 ### OLD STEPS (for transfer of updated code):
 1. Ensure all saves have been committed on remote server
 2. ssh into remote server
 3. Zip up contents of MonsterVision file using `zip -r <name of zip file to be created> <directory you want to zip>`
-4. Run `ipconfig` on the laptop computer and find the correct ip address (will make more specific later)"legacy command`scp -rp pi@wpilibpi.local:/home/pi/MonsterVision5/. c:/dev/MonsterVision5/`"
+4. Run `ipconfig` on the laptop computer and find the correct ip address (will make more specific later)"legacy command`scp -rp pi@wpilibpi.local:/home/pi/MonsterVision/. c:/dev/MonsterVision5/`"
 5. sudo scp -rp /home/pi/MonsterVision5/. <pc ip address>:c:/dev/MonsterVision5/6. Open VSCode7. Git pull and push as required
