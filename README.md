@@ -6,7 +6,7 @@ This should run on RPI5. No testing done on RPI4 yet
 <img width="1000" height="600" alt="VisionHardware" src="visionHardware.png"/>
 
 ## How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
-1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/Lakemonsters2635/MonsterVision.git`
+1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/2635Lakemonsters/MonsterVision.git`
 1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (scroll down to "Assets" and select WPILibPi, not Romi)
 1. Extract downloaded .zip file
 1. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)
@@ -49,7 +49,7 @@ Within the session:
 
 Clone the MonsterVision repo:
 ```shell
-git clone https://github.com/Lakemonsters2635/MonsterVision.git
+git clone https://github.com/2635Lakemonsters/MonsterVision.git
 ```
 
 For development, it is best to use a Python virtual environment to keep from descending into "version hell."  Create the virtual environment and activate it. This also prevents the package managers from clashing and can make the process of installing smoother
