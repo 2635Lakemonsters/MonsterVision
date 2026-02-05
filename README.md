@@ -306,5 +306,5 @@ Assume wpilibpi.local is the server you want to push code to
 1. Ensure all saves have been committed on remote server
 2. ssh into remote server
 3. Zip up contents of MonsterVision file using `zip -r <name of zip file to be created> <directory you want to zip>`
-4. Run `ipconfig` on the laptop computer and find the correct ip address (will make more specific later)"legacy command`scp -rp pi@wpilibpi.local:/home/pi/MonsterVision/. c:/dev/MonsterVision5/`"
-5. sudo scp -rp /home/pi/MonsterVision5/. <pc ip address>:c:/dev/MonsterVision5/6. Open VSCode7. Git pull and push as required
+4. Run `ipconfig` on the laptop computer and find the correct ip address (will make more specific later)"legacy command`scp -rp pi@wpilibpi.local:/home/pi/MonsterVision/. c:/dev/MonsterVision/`"
+5. sudo scp -rp /home/pi/MonsterVision/. <pc ip address>:c:/dev/MonsterVision/6. Open VSCode7. Git pull and push as required
