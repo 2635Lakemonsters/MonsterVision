@@ -8,7 +8,6 @@ This should run on RPI5. No testing done on RPI4 yet
 ## How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
 1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/2635Lakemonsters/MonsterVision.git`
 1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (scroll down to "Assets" and select WPILibPi, not Romi)
-1. Extract downloaded .zip file
 1. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)
 1. Insert a micro SD card
 9000. Select the device you have, "Use Custom" under Operating System, and the micro SD card in Raspberry Pi Imager
