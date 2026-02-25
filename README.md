@@ -2,10 +2,12 @@
 
 This should run on RPI5. No testing done on RPI4 yet
 
-## Illustration for Pi setup:
+## How to setup/use MonsterVision:
+
+Illustration for vision hardware setup on robot:
 <img width="1000" height="600" alt="VisionHardware" src="visionHardware.png"/>
 
-## How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
+### How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
 1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/2635Lakemonsters/MonsterVision.git`
 1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (scroll down to "Assets" and select WPILibPi, not Romi)
 1. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)
@@ -25,49 +27,16 @@ dos2unix *
 sudo sh resize.sh
 sudo sh setup.sh <TEAM NUMBER>
 ```
-_____________________________________________________________________________________________________________
-## How to use Pi's for MV Development
-This document covers installing MonsterVision on a Raspberry Pi development machine.
 
-It is recommended (but not required) that you use an SSD rather than an SD card on your Pi.  If you do, you may need to enable your Pi to boot from the SSD.  This only needs to be done once.  [Follow these instructions.](https://peyanski.com/how-to-boot-raspberry-pi-4-from-ssd/#:~:text=To%20boot%20Raspberry%20Pi%204%20from%20SSD%20you,USB%20to%20boot%20raspberry%20Pi%204%20from%20SSD.)
-At this time it is important to note that SSDs are not competition legal for FRC.
+### How to set up MonsterVision on the robot
+1. Follow all the above steps for setting up the vision hardware and setting up the Pi on the robot
+1. Open [wpilibpi.local](http://wpilibpi.local) and open the "Vision" tab, this will open the camera stream on the robot
 
-Once you've gotten your Pi up and running, follow this procedure:
+## Documentation/description of each file:
 
-### 1. Start with installing Visual Studio Code (which should also install CMake):
-You can skip this step if you just want to install CMake on your own but I haven't tested if that works.
-Visual Studio Code is the preferred development environment for consistency with our general FRC code development.  It is officially distributed via the Raspberry Pi OS APT repository in both 32- and 64-bit versions:  Install via:
-```shell
-sudo apt update
-sudo apt install code
-```
-It can be launched with from a terminal via `code` or via the GUI under the **Programming** menu.
+### mv.json:
+Contains MonsterVision-specific configuration data.
 
-### 2. Start a Terminal session:
-Within the session:
-
-Clone the MonsterVision repo:
-```shell
-git clone https://github.com/2635Lakemonsters/MonsterVision.git
-```
-
-For development, it is best to use a Python virtual environment to keep from descending into "version hell."  Create the virtual environment and activate it. This also prevents the package managers from clashing and can make the process of installing smoother
-
-Change to the MonsterVision directory:
-```shell
-cd MonsterVision
-```
-_____________________________________________________________________________________________________________
-
-## The various configuration files
-
-| File | Description |
-| --- | --- |
-| /boot/mv.json | Contains MonsterVision-specific configuration data. |
-| /boot/frc.json | Contains configuration data maintained by the WPILibPi web interface.  There is no need to modify this file manually. |
-| /boot/nn.json | Contains model-specific configuration data for the NN.  Copy this file from the appropriate JSON file found in the `model` direactory. |
-
-## mv.json
 example of what `mv.json` may look like: 
 ```json
 {
@@ -87,20 +56,6 @@ example of what `mv.json` may look like:
 }
 ```
 
-### `cameras` configures how a camera is used on the robot.
-
-`cameras` is an array of dictionaries, each containing:
-
-| Field | Description |
-| --- | --- |
-|`mxid`| matches the unique identifier of the OAK camera. |
-|`name`| allows you to assign a "friendly" name to the camera (usually named by location on robot). |
-|`invert`| specifies that the camera is mounted upside down on the robot |
-|`useDepth`| set to 1 if you want the camera to compute depth using stereo disparity.  Has no effect on April Tag depth calculation. |
-|`nnFile`| Specifies the path to the NN configuration file to be used with this camera. |
-
-### Remaining fields in `mv.json`
-
 | Field | Description |
 | --- | --- |
 |`tagFamily`| The April Tag family such as `tag36h11` or `tag16h5`|
@@ -112,7 +67,20 @@ example of what `mv.json` may look like:
 |`DS_SCALE`| another way to reduce bandwidth.  Tha RGB camera image (with annotations) is scaled by this factor before being sent to the drivers station. |
 |`showPreview`| If True, the `preview` output of the RGB camera is sent to an XLinkOut for eventual display on systems running a GUI. |
 
-## frc.json
+
+#### `cameras` configures how a camera is used on the robot. `cameras` is an array of dictionaries, each containing:
+
+| Field | Description |
+| --- | --- |
+|`mxid`| matches the unique identifier of the OAK camera. |
+|`name`| allows you to assign a "friendly" name to the camera (usually named by location on robot). |
+|`invert`| specifies that the camera is mounted upside down on the robot |
+|`useDepth`| set to 1 if you want the camera to compute depth using stereo disparity.  Has no effect on April Tag depth calculation. |
+|`nnFile`| Specifies the path to the NN configuration file to be used with this camera. |
+
+### frc.json:
+Contains configuration data maintained by the WPILibPi web interface.  There is no need to modify this file manually.
+
 example of what `frc.json` may look like: 
 ```json
 {
@@ -146,7 +114,9 @@ example of what `frc.json` may look like:
 ||**1**|Host has attached display - depth and annotation windows will be displayed|
 |`LaserDotProjectorCurrent`|Desired Current|This is for an OAK-D Pro and if you don't have one you can remove it. 765 mA is the most efficent value but you can put in any value (don't go above 1000.0)|
 
-## nn.json
+### nn.json:
+Contains model-specific configuration data for the NN.  Copy this file from the appropriate JSON file found in the `model` direactory.
+
 example of what `nn.json` may look like: 
 ```json
 {
@@ -178,18 +148,14 @@ example of what `nn.json` may look like:
 }
 ```
 
-### `model` configures model data.
-
-`model` is a json of file names:
+#### `model` configures model data. `model` is a json of file names:
 
 | Field | Description |
 | --- | --- |
 |`xml`| Contains the XML data |
 |`bin`| Contains the bin data |
 
-### `nn_config` configures neural network parameters.
-
-`nn_config` is a json of strings:
+#### `nn_config` configures neural network parameters. `nn_config` is a json of strings:
 
 | Field | Description |
 | --- | --- |
@@ -198,9 +164,7 @@ example of what `nn.json` may look like:
 |`NN_FAMILY`| Neural network *adrien brain word* |
 |`input_size`| Contains neural network input image dimensions |
 
-### `NN_specific_metadata` contains important metadata.
-
-`NN_specfic_metadata` is a json in `nn_config` that contains integers:
+#### `NN_specific_metadata` contains important metadata. `NN_specfic_metadata` is a json in `nn_config` that contains integers:
 
 | Field | Description |
 | --- | --- |
@@ -211,22 +175,18 @@ example of what `nn.json` may look like:
 |`iou_threshold`| Intersection over Union threshold for YOLO masks |
 |`confidence_threshold`| Minimum confidence for output detection |
 
-### `mappings` contains label names.
-`mappings` is a json of a list of labels
+#### `mappings` contains label names. `mappings` is a json of a list of labels
 
 | Field | Description |
 | --- | --- |
 |`labels`| A list of class names |
 
-### Remaining fields in `nn.json`
+#### `version`: Neural network version number, has no effect
 
-| Field | Description |
-| --- | --- |
-|`version`| Neural network version number, has no effect |
+## Troubleshooting/Quick Fixes
 
-_____________________________________________________________________________________________________________
 
-## How to toggle the camera server
+### How to toggle the camera server
 1. Open command prompt
 2. `ssh pi@wpilibpi` or `ssh pi@wpilibpi.local`
 3. Go to [wpilibpi.local webserver](http://wpilibpi.local/) and change it to writable
@@ -247,14 +207,13 @@ IF KILL/TERMINATE doesn't seem to work then you have to go into htop and SIGKILL
 6. Type `fn+f9` and then '9' to execute the SIGKILL command to kill the process
 7. Hit enter to execute the command
 
-## How to Disable Network Adapters for Competition
+### How to Disable Network Adapters for Competition
 Laptop network wifi needs to be disabled for competition. Also secondary ethernet besides the one on the adapter for hardwiring needs to be disabled
 1. Type `windows+r` to open up Windows command Runner
 2. Run `ncpa.cpl`
 3. Disable Wifi and any secondary ethernet connector (likely the highest number adapter)
 
-_____________________________________________________________________________________________________________
-## How to change model used
+### How to change model used
 1. Open command prompt
 2. `ssh pi@wpilibpi` or `ssh pi@wpilibpi.local`
 3. Go to [wpilibpi.local webserver](http://wpilibpi.local/) and change it to writable
@@ -265,11 +224,31 @@ ________________________________________________________________________________
 9. Add between lines 6 and 7 (6.5) `"blob": "<chosen appropriate name given season>", `
 
 6 7?
-_____________________________________________________________________________________________________________
-## How to do remote development on Pi
-Create a git repo and have it synced with GitHub.
 
-Commands may need to be ran through `sudo`
+## How to do MonsterVision Development 
+
+### How to use Pi's for MV Development
+This document covers installing MonsterVision on a Raspberry Pi development machine.
+
+It is recommended (but not required) that you use an SSD rather than an SD card on your Pi.  If you do, you may need to enable your Pi to boot from the SSD.  This only needs to be done once.  [Follow these instructions.](https://peyanski.com/how-to-boot-raspberry-pi-4-from-ssd/#:~:text=To%20boot%20Raspberry%20Pi%204%20from%20SSD%20you,USB%20to%20boot%20raspberry%20Pi%204%20from%20SSD.)
+At this time it is important to note that SSDs are not competition legal for FRC.
+
+Once you've gotten your Pi up and running, start with installing Visual Studio Code. Visual Studio Code is the preferred development environment for consistency with our general FRC code development. It is officially distributed via the Raspberry Pi OS APT repository in both 32- and 64-bit versions. Install via:
+```shell
+sudo apt update
+sudo apt install code
+```
+It can be launched from a terminal via `code` or via the GUI under the **Programming** menu.
+
+Start a Terminal session. Within the session, clone the MonsterVision repo:
+```shell
+git clone https://github.com/2635Lakemonsters/MonsterVision.git
+```
+
+For development, it is best to use a Python virtual environment to keep from descending into "version hell."  Create the virtual environment and activate it. This also prevents the package managers from clashing and can make the process of installing smoother. Change to the MonsterVision directory:
+```shell
+cd MonsterVision
+```
 
 ### Edit code through Pi:
 1. Go to [wpilibpi.local webserver](http://wpilibpi.local/) and change it to writable
