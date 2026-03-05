@@ -18,41 +18,41 @@ import ConfigManager as cm
 
 def printDeviceInfo(devInfo: dai.DeviceInfo):
     device: dai.Device = dai.Device(devInfo)
-    mxId = devInfo.getMxId()
+    mxId = devInfo.getMxId() #Mxid is like identifier for cameras
     cameras = device.getConnectedCameras()
     usbSpeed = device.getUsbSpeed()
     calibData = device.readCalibration()
+# if cant get eeprom data skip to except.
     try:
-        eepromData = calibData.getEepromData()
+        eepromData = calibData.getEepromData() #EepromData is like read only memory storage for configuration data/parameters/calibration 
     except:
         eepromData = None
-    if eepromData is not None: productName = eepromData.productName
+    if eepromData is not None: productName = eepromData.productName #If eeprom data is available, creates a variable for the product name
 
-    print("   >>> MXID:", mxId)
-    print("   >>> Num of cameras:", len(cameras))
+    print("   >>> MXID:", mxId) 
+    print("   >>> Num of cameras:", len(cameras)) #cameras is a list
     for cam in cameras:
         print("   >>> Camera:", cam)
     print("   >>> USB speed:", usbSpeed)
-    if eepromData is not None and eepromData.boardName != "":
-        print("   >>> Board name:", eepromData.boardName)
-    if eepromData is not None and eepromData.productName != "":
+    if eepromData is not None and eepromData.boardName != "": #Data validation check
+        print("   >>> Board name:", eepromData.boardName) 
+    if eepromData is not None and eepromData.productName != "": #Data validation check
         print("   >>> Product name:", eepromData.productName)
-    xxx = device.getIrDrivers()
+    xxx = device.getIrDrivers() #IR is infared
     print("   >>> IR drivers:", xxx)
 
     return
 
 def profile():
-    with contextlib.ExitStack() as stack:
-        frc = FRC() # Instantiate an FRC object
+    with contextlib.ExitStack() as stack: #context.lib provides utilities for common tasks, stack is a linear data structure
+        frc = FRC() #initilize FRC object
         
-        deviceInfos = dai.Device.getAllAvailableDevices() # Get all available device info
+        deviceInfos = dai.Device.getAllAvailableDevices() # Gets all info for future reference
         
         oakCameras = [] # Create an empty list of cameras
         print(len(deviceInfos))
-
-        # This section enumerates all connected devices and prints out their information
-        # It needs to be customized to each year's set of cameras and uses
+        
+        #prints out their information
 
         for deviceInfo in deviceInfos:
             deviceInfo: dai.DeviceInfo # Give deviceInfo a type
@@ -63,9 +63,6 @@ def profile():
             # In this sample code, we connect to every camera we find
 
             print("===Connected to ", mxId) # Print that we connected to that camera
-
-            # Here we can customize the NN being used on the camera
-            # You can have different NN's on each camera (or none)
 
             # Find the correct resolutions for each camera in mv.json
             
@@ -83,12 +80,11 @@ def profile():
             else:
                 rgbResolution = dai.ColorCameraProperties.SensorResolution.THE_1080_P
 
-            # Even if the camera supports depth, you can force it to not use depth
             # Create a camera pipeline object from the camera pipeline class using the name associated with the cameraID in the mv.json file, the camera's info, if we want to use the depth from the camera, and the file associated with the neural network config
             cam1 = camPipe.CameraPipeline(cm.mvConfig.getCamera(mxId)['name'], deviceInfo, useDepth=True, nnFile="/boot/nn.json", monoResolution=monoResolution, rgbResolution=rgbResolution) # /boot/nn.json
 
             # This is where the camera is set up and the pipeline is built
-            # First, create the Spatial Detection Network (SDN) object
+            # First, create the Spatial Detection Network (SDN) (specialized AI model) object
             
             sdn = cam1.setupSDN() # In the camera pipeline call another method to set up the spacial detection network for it given the NN config file and return a spacial detection node
 

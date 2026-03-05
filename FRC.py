@@ -100,7 +100,7 @@ class FRC:
 
     # Display windows if you are not running headless
     def displayCamResults(self, cam):
-        if not self.onRobot:
+        if not self.onRobot: 
             if cam.frame is not None:
                 cv2.imshow(cam.name + " rgb", cam.frame)
             # if cam.ispFrame is not None:

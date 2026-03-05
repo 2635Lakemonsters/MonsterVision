@@ -11,7 +11,7 @@ scaleFactor = 1     # Scale factor for the image to reduce processing time
 
 class CameraPipeline:
 
-    # Set up openvino for the NN  
+    # Set up openvino for the NN, openvino is used for interpretation of models
     openvinoVersions = dai.OpenVINO.getVersions()
     openvinoVersionMap = {}
     for v in openvinoVersions:
@@ -24,6 +24,7 @@ class CameraPipeline:
     # useDepth: bool             # True: use depth if available, False: use RGB only
     # nnFile: str                # The neural network config file.  None if no NN is to be used
 
+    #This sets up parameters and NN components based on provided arguments
     def __init__(self, name: str, devInfo : dai.DeviceInfo, useDepth : bool, nnFile : str, monoResolution : str, rgbResolution : str):
         self.name = name
         device: dai.Device = dai.Device(devInfo)
@@ -42,7 +43,7 @@ class CameraPipeline:
         # self.rgbWidth = 1920 UNNEEDED
         # self.rgbHeight = 1080 UNNEEDED
 
-        self.ispScale = (2, 3)
+        self.ispScale = (2, 3) # isp is image signal processing
 
         self.bbfraction = 0.2 # The size of the inner bounding box as a fraction of the original
 
@@ -54,7 +55,6 @@ class CameraPipeline:
         self.frame = None
         self.depthFrame = None
         # self.ispFrame = None
-        self.frame = None
         self.detections = None
         self.depthFrameColor = None
         self.cameraIntrinsics = None
@@ -66,7 +66,7 @@ class CameraPipeline:
         """Report parse error."""
         print("config error in '" + self.NN_FILE + "': " + mess, file=sys.stderr)
 
-    def read_nn_config(self):
+    def read_nn_config(self): #loads parameter set
         try: # Try to open the NN config file
             with open(self.NN_FILE, "rt", encoding="utf-8") as f:
                 j = json.load(f) # Load in json format
@@ -75,7 +75,7 @@ class CameraPipeline:
             return {}
 
         # top level must be an object
-        if not isinstance(j, dict):
+        if not isinstance(j, dict): #checks if j is an instance in
             self.parse_error("must be JSON object")
             return {}
 

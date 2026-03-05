@@ -34,6 +34,7 @@ class Detections:
 
     def __init__(self, bbfraction, LABELS):
         self.bbfraction = bbfraction
+        
         self.LABELS = LABELS
 
 
