@@ -97,7 +97,7 @@ class CameraPipeline:
         # Get path to blob
 
         blob = nnConfig['blob']
-        nnBlobPath = str((Path(__file__).parent / Path('models/' + blob)).resolve().absolute())
+        nnBlobPath = str((Path(__file__).parent / Path('models/' + blob)).resolve().absolute()) #ensures that the path is correct regardless if the directory is working
 
         if not Path(nnBlobPath).exists():
             import sys
@@ -107,7 +107,7 @@ class CameraPipeline:
         try:
             self.openvinoVersion = nnConfig['openvino_version']
         except KeyError:
-            self.openvinoVersion = ''
+            self.openvinoVersion = '' #if there is no available version
 
         if self.openvinoVersion != '':
             self.pipeline.setOpenVINOVersion(self.openvinoVersionMap[self.openvinoVersion])
@@ -115,7 +115,7 @@ class CameraPipeline:
         try:
             self.inputSize = tuple(map(int, nnConfig.get("input_size").split('x')))
         except KeyError:
-            self.inputSize = (300, 300)
+            self.inputSize = (300, 300) #image size
 
         family = nnConfig['NN_family']
         if family == 'mobilenet':
@@ -146,10 +146,10 @@ class CameraPipeline:
             spatialDetectionNetwork.setAnchors(nnConfig['NN_specific_metadata']['anchors'])
             spatialDetectionNetwork.setAnchorMasks(nnConfig['NN_specific_metadata']['anchor_masks'])
             spatialDetectionNetwork.setIouThreshold(nnConfig['NN_specific_metadata']['iou_threshold'])
-            x = nnConfig['NN_specific_metadata']['confidence_threshold'] # why?
+            x = nnConfig['NN_specific_metadata']['confidence_threshold'] 
             spatialDetectionNetwork.setConfidenceThreshold(x)
         else:
-            x = nnConfig['confidence_threshold'] # why?
+            x = nnConfig['confidence_threshold'] 
             spatialDetectionNetwork.setConfidenceThreshold(x)
         
         spatialDetectionNetwork.setBlobPath(nnBlobPath)
