@@ -28,7 +28,7 @@ with contextlib.ExitStack() as stack:
     usbSpeed = dai.UsbSpeed.SUPER
     openVinoVersion = dai.OpenVINO.Version.VERSION_2021_4
 
-    qRgbMap = []
+    qRgbMap = [] #stores color mapping info, between multiple devices
     devices = []
 
     for deviceInfo in deviceInfos:
