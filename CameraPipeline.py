@@ -128,7 +128,7 @@ class CameraPipeline:
             raise Exception(f'Unknown NN_family: {family}')
 
         try:
-            self.bbfraction = nnConfig['bb_fraction']
+            self.bbfraction = nnConfig['bb_fraction'] #bb is bounding box
         except KeyError:
             self.bbfraction = self.bbfraction			# No change from default
 
@@ -357,8 +357,8 @@ class CameraPipeline:
                         self.detections = q.get().detections
         
         if anyChanges:
-            now = time.time_ns() / 1.0e9
-            self.fps = int(1/(now - self.lastFrameTime))
+            now = time.time_ns() / 1.0e9 #capture current time and converting into nano seconds
+            self.fps = int(1/(now - self.lastFrameTime)) #calculates fps
             self.lastFrameTime = now
 
 
