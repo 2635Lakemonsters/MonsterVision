@@ -32,6 +32,8 @@ sudo sh resize.sh
 sudo sh setup.sh <TEAM NUMBER>
 ```
 
+**IF THE `setup.sh` FAILS TO RUN:** you have to manually edit the file with `nano setup.sh`. more explanantion on this soon...
+
 ### How to set up MonsterVision on the robot
 1. Follow all the above steps for setting up the vision hardware and setting up the Pi on the robot
 1. Open [wpilibpi.local](http://wpilibpi.local) and open the "Vision" tab, this will open the camera stream on the robot
