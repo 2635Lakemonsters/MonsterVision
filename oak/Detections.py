@@ -1,6 +1,6 @@
 import cv2
 import depthai as dai
-import ConfigManager as cm
+import oak.ConfigManager as cm
 
 
 def _average_depth_coord(pt1, pt2, padding_factor):

@@ -204,12 +204,12 @@ How to Restart MonsterVision:
 1. Go to [wpilibpi.local webserver](http://wpilibpi.local/) and go to Vision Status
 2. Click the red Kill button
 
-IF KILL/TERMINATE doesn't seem to work then you have to go into htop and SIGKILL the main MonsterVision4.5.py:
+IF KILL/TERMINATE doesn't seem to work then you have to go into htop and SIGKILL the main MonsterVision.py:
 1. Open command prompt
 2. `ssh pi@wpilibpi` or `ssh pi@wpilibpi.local`
 3. Go to [the wpilibpi.local webserver](http://wpilibpi.local/) and change it to writable
 4. `htop` in terminal to view all processes
-5. Click on the `python3 ./MonsterVision4.5.py` (should be in green)
+5. Click on the `python3 ./MonsterVision.py` (should be in green)
 6. Type `fn+f9` and then '9' to execute the SIGKILL command to kill the process
 7. Hit enter to execute the command
 

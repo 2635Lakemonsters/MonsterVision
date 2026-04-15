@@ -4,7 +4,7 @@ import sys
 import time
 import cv2
 import depthai as dai
-import ConfigManager as cm
+import oak.ConfigManager as cm
 
 scaleFactor = 1     # Scale factor for the image to reduce processing time
 

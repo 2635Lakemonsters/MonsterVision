@@ -6,11 +6,12 @@ import depthai as dai
 import contextlib
 import cProfile
 import robotpy_apriltag
-import CameraPipeline as camPipe
-from Detections import Detections
-from AprilTag5 import AprilTag
-from FRC import FRC
-import ConfigManager as cm
+import oak.CameraPipeline as camPipe
+from oak.Detections import Detections
+from oak.AprilTag5 import AprilTag
+from oak.FRC import FRC
+import oak.ConfigManager as cm
+from webcam.webcam import WebCam
 
 
 # Prints "interesting" information about the camera
@@ -118,10 +119,16 @@ def profile():
             lowCount = 1
             allCount = 1
 
+        webcamfr = WebCam("fr")
+        webcamfl = WebCam("fl")
+
         while True:
             cam : camPipe # Type cam to be a camPipe
 
             # Loop through all the cameras.  For each camera, process the next frame
+
+            webcamfr.push_network_table(webcamfr.detect())
+            webcamfl.push_network_table(webcamfl.detect())
 
             for (cam, mxId, detector, tagDetector) in oakCameras:
 
