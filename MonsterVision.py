@@ -126,9 +126,15 @@ def profile():
             cam : camPipe # Type cam to be a camPipe
 
             # Loop through all the cameras.  For each camera, process the next frame
-
-            webcamfr.push_network_table(webcamfr.detect())
-            webcamfl.push_network_table(webcamfl.detect())
+            try:
+                webcamfr.push_network_table(webcamfr.detect())
+            except:
+                pass
+            
+            try:
+                webcamfl.push_network_table(webcamfl.detect())
+            except:
+                pass
 
             for (cam, mxId, detector, tagDetector) in oakCameras:
 
