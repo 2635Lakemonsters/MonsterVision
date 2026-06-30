@@ -9,30 +9,24 @@ Illustration for vision hardware setup on robot:
 
 ### How to set up Raspberry Pi 5 with WPILibPi and MonsterVision (FOR SETUP ON ROBOT)
 1. Starting on your local machine (NOT THE PI), run `git clone https://github.com/2635Lakemonsters/MonsterVision.git`
-1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (go to the LATEST release, scroll down to "Assets" and select the file named something like `WPILibPi_64_image-vXXXX.X.X.zip`, dont select any other versions of it)
+1. Download most recent WPILibPi image from [here](https://github.com/wpilibsuite/WPILibPi/releases) (scroll down to "Assets" and select WPILibPi, not Romi)
 1. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)
-1. Insert a micro SD card into your local machine
-9000. Open the Pi Imager and select the Pi you have (probably going to be Pi 5)
-1. For Operating System, select "Use Custom" and upload the WPILibPi zip file you just downloaded
-1. For storage, select the micro SD card you inserted (it MIGHT be named "MassStorageClass" but it depends on what kind of SD card youre using) 
-1. After it's done imaging the SD card, insert the card into Pi and plug into an Aux port in your radio on the robot (make sure you turn the robot on and give the pi power)
+1. Insert a micro SD card
+9000. Select the device you have, "Use Custom" under Operating System, and the micro SD card in Raspberry Pi Imager
+1. Insert SD card into Pi and plug into an Aux port in your radio on the robot (make sure you turn the robot on and give the pi power)
 1. May need to wait 2-5 minutes for pi to boot for the first time
-1. On your local machine, `ssh` into the Raspberry Pi with `ssh pi@wpilibpi.local` (if you get a "man-in-the-middle error, run `ssh-keygen -R wpilibpi.local -f <path to your 'known_hosts' file>` or just delete your `known_hosts` file if you arent using your computer to ssh into anything else AT ALL)
+1. ssh into the Raspberry Pi with `ssh pi@wpilibpi.local` (if you get a "man-in-the-middle error, run `ssh-keygen -R wpilibpi.local -f <your known_hosts file path>`)
 2. Navigate to [wpilibpi.local](http://wpilibpi.local) and click "Writable" at the top of the page
-3. Download the .zip for the MonsterVision repo [here](https://github.com/2635Lakemonsters/MonsterVision/archive/refs/heads/main.zip)
-1. Navigate to the "Application" tab on wpilibpi.local and click "choose file" then select your MonsterVision file and click "Upload" **(DO NOT check extract)**
-1. In the ssh run these commands:
+1. Navigate to the "Application" tab on wpilibpi.local and click "choose file" then select your MonsterVision.tar.gz file and click "Upload" (Do not check extract)
+1. In the ssh run these commands (if MV5 is already on there then remove it before proceeding):
 ```shell
-unzip MonsterVision-main.zip
-rm MonsterVision-main.zip
-mv MonsterVision-main MonsterVision
+tar -xzf MonsterVision.tar.gz
+rm MonsterVision.tar.gz
 cd MonsterVision
 dos2unix *
 sudo sh resize.sh
 sudo sh setup.sh <TEAM NUMBER>
 ```
-
-**IF THE `setup.sh` FAILS TO RUN:** you have to manually edit the file with `nano setup.sh`. more explanantion on this soon...
 
 ### How to set up MonsterVision on the robot
 1. Follow all the above steps for setting up the vision hardware and setting up the Pi on the robot
@@ -230,6 +224,7 @@ Laptop network wifi needs to be disabled for competition. Also secondary etherne
 9. Add between lines 6 and 7 (6.5) `"blob": "<chosen appropriate name given season>", `
 
 6 7?
+??
 
 ## How to do MonsterVision Development 
 
@@ -285,6 +280,13 @@ Assume wpilibpi.local is the server you want to push code to
 6. Unzip on laptop
 7. Copy into MonsterVision directory connected to GitHub on laptop (overwriting in the process)
 8. Commit and push to GitHub
+
+(Just a side note here, you can just use remote explorer to download the code from the PI, makes everything incredibly easier)
+
+### Important notes regarding WebCam
+1. Recording the matches require a write access to be given, this should be done in runcamera but risks corrupting the pi. Basically you need to unmount the disk while running it and then remount it with write access.
+2. networktables/ntcore, one of them work on computer and other on the pi. The difference is accounted for in the code
+3. the webcam.json includes dev mode that can be further used for debugging and other purposes
 
 ### OLD STEPS (for transfer of updated code):
 1. Ensure all saves have been committed on remote server

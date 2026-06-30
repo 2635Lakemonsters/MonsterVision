@@ -11,7 +11,12 @@ from Detections import Detections
 from AprilTag5 import AprilTag
 from FRC import FRC
 import ConfigManager as cm
-
+try:
+    # If the webcam is not available
+    print("Webcam not available")
+    from source.webcam import WebCam
+except:
+    pass
 
 # Prints "interesting" information about the camera
 # and returns the camera intrinsics
@@ -117,9 +122,24 @@ def profile():
 
             lowCount = 1
             allCount = 1
+        try:
+            webcamfr = WebCam("fr")
+            webcamfl = WebCam("fl")
+        except:
+            pass
 
         while True:
             cam : camPipe # Type cam to be a camPipe
+
+            try:
+                webcamfr.push_network_table(webcamfr.detect())
+            except:
+                pass
+            
+            try:
+                webcamfl.push_network_table(webcamfl.detect())
+            except:
+                pass
 
             # Loop through all the cameras.  For each camera, process the next frame
 
